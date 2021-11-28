@@ -8,7 +8,7 @@ import {Line, Bar, Doughnut} from "react-chartjs-2";
 
 async function getInsurance(id) {
     const response = await axios.get(
-        `/api/insurance/${id}`
+        `/insurance/${id}`
     );
     return response.data.data;
 }

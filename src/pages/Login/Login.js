@@ -5,6 +5,8 @@ import {Link, useHistory} from "react-router-dom";
 import apiAxios from "../../apiAxios";
 import {Wrapper} from "../../components/Wrapper";
 import axios from "axios";
+import SignUp from "./SignUp";
+
 
 const Login = ({onSetUser}) => {
     //state & variables
@@ -13,6 +15,8 @@ const Login = ({onSetUser}) => {
         password: ''
     });
     const {loginId, password} = info;
+
+    const [visible, setVisible] = useState(false);
     const history = useHistory();
 
     //functions
@@ -26,7 +30,7 @@ const Login = ({onSetUser}) => {
     async function getUser(info) {
         const response = await axios(
             {
-                url: '/api/employee/login',
+                url: '/login',
                 method: 'post', // 나중에 post
                 data: {
                     loginId: info.loginId,
@@ -62,6 +66,7 @@ const Login = ({onSetUser}) => {
         data: null,
         result: null
     });
+
     return (
         <div className="wrap">
             <div className="panel left-side">
@@ -74,6 +79,7 @@ const Login = ({onSetUser}) => {
                         <label>HM 손해보험</label>
                         <h3>보험 정보 시스템</h3>
                     </div>
+
                     <div className="login-div">
                         <div className="square-box">
                             <div className="square-img">
@@ -94,6 +100,10 @@ const Login = ({onSetUser}) => {
                     <div>
                         <Link className="forget-pass" to="/login/forget">비밀번호를 잊으셨습니까?</Link>
                     </div>
+                    <div>
+                        <a className="forget-pass" onClick={() => {setVisible(true)}}>회원가입</a>
+                    </div>
+                        <SignUp visible = {visible} setVisible = {setVisible}/>
                 </div>
             </div>
         </div>

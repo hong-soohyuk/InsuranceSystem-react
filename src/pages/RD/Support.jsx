@@ -9,7 +9,7 @@ import axios from "axios";
 
 async function getInsurances() {
     const response = await axios.get(
-        '/api/insurance'
+        '/insurance'
     ).catch(err => {console.log('eerr', err)});
     return response.data.data;
 }

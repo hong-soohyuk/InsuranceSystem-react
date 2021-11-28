@@ -34,11 +34,11 @@ const FlexDiv = styled.div`
 
 async function getClients() {
     const response = await axios.get(
-        'http://hminsu.net/api/client'
+        '/client'
     );
     return response.data.data;
 }
-
+// todo: 유저 스키마 확인하기. 수정하기
 const Client = ({match, history}) => {
     const title = "고객관리";
     const subtitle = "잠재 고객 및 계약 고객을 분석하여 추가 영업기회 확보";

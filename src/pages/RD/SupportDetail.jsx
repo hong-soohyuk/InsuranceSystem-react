@@ -15,13 +15,13 @@ const SubTitle = ({text}) => {
 
 async function getInsurance(id) {
     const response = await axios.get(
-        `/api/insurance/${id}`
+        `/insurance/${id}`
     );
     return response.data.data;
 }
 async function statusInsurance(id, data) {
     console.log('status on api call ',data.status)
-    const url = `/api/insurance/${id}/status`;
+    const url = `/insurance/${id}/status`;
     const response = await axios({
         method: 'post',
         url: url,

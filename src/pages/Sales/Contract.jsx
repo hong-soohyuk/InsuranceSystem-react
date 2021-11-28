@@ -49,7 +49,7 @@ const SmallContainer = styled.div`
 
 async function getInsurances() {
     const response = await axios.get(
-        '/api/insurance'
+        '/insurance'
     );
     return response.data.data;
 }
@@ -120,7 +120,7 @@ const Contract = () => {
                 channel[0] += 1;
             else if (ch === "전화")
                 channel[1] += 1;
-            else 
+            else
                 channel[2] += 1;
             console.log(channel);
         });
