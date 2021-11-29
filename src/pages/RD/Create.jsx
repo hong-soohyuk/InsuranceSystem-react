@@ -3,6 +3,7 @@ import {Form, Input, Button, Select, InputNumber, Row, Col, notification} from '
 import axios from "axios";
 import {Wrapper} from "../../components/Wrapper";
 import "../../css/Detail.css";
+import {SelectOptions} from "../../components/SelectOptions";
 
 async function postInsurance(data, form) {
     const url = '/insurance';
@@ -36,8 +37,6 @@ const Create = () => {
     const subtitle = "HM 손해보험의 보험상품을 개발하기 위한 페이지입니다."
     const [form] = Form.useForm();
 
-    // const userId = useSelector(state => (state.user.data.id))
-
     const [state, setState] = useState({
         name: '',
         description: '',
@@ -46,6 +45,13 @@ const Create = () => {
         rating: '',
         category: '',
     })
+
+    const insuranceCategory = [
+        {label: '자동차보함', value: '자동차'},
+        {label: '운전자보험 ', value: '운전자'},
+        {label: '화재보험', value: '화재'},
+        {label: '여행자보험', value: '여행자'}
+    ];
 
     const handleChange = (event) =>{
         const target = event.target;
@@ -84,12 +90,13 @@ const Create = () => {
                 </Form.Item>
 
                 <Form.Item rules={[{required: true, message: '상품의 종류를 선택해주세요!'}]} name='category' label="상품 항목">
-                    <Select value={state.category} onChange={(val)=>{handleChange({target: {name: 'category', value: val}})}}>
-                        <Select.Option value="자동차">자동차 보험</Select.Option>
-                        <Select.Option value="운전자">운전자 보험</Select.Option>
-                        <Select.Option value="화재">화재 보험</Select.Option>
-                        <Select.Option value="여행">여행자 보험</Select.Option>
-                    </Select>
+                    <SelectOptions onChangeMethod={handleChange} selectValue={state.category} optionList={insuranceCategory}/>
+                    {/*<Select value={state.category} onChange={(val)=>{handleChange({target: {name: 'category', value: val}})}}>*/}
+                    {/*    <Select.Option value="자동차">자동차 보험</Select.Option>*/}
+                    {/*    <Select.Option value="운전자">운전자 보험</Select.Option>*/}
+                    {/*    <Select.Option value="화재">화재 보험</Select.Option>*/}
+                    {/*    <Select.Option value="여행">여행자 보험</Select.Option>*/}
+                    {/*</Select>*/}
                 </Form.Item>
 
                 <Row>
