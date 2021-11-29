@@ -64,7 +64,7 @@ const Manage = ({match, history}) => {
         },
         {
             title: '보험분류',
-            key: 'category',
+            key: 'insuranceCategory',
             width: '15%',
             dataIndex: 'insuranceCategory',
             filters: [

@@ -72,6 +72,9 @@ const Base = () => {
                                     <li>
                                         <MyLink to="/sales/apply">상품가입</MyLink>
                                     </li>
+                                    <li>
+                                        <MyLink to="/sales/register">고객가입</MyLink>
+                                    </li>
                                 </ul>
                             </li>
                             {/*<li>*/}

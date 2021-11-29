@@ -47,32 +47,18 @@ const SupportDetail = ({match}) => {
         id: '',
         name: '',
         description: '',
-        category: '',
-        status: '',
-        target: {creditRating: '', startAge: '', endAge: ''},
-        coverage: [],
-        accidentDocument: [],
-        createTime: '',
-        modifiedTime: '',
-        createEmployee: {
-            id: '',
-            name: '',
-            phoneNumber: '',
-            email: '',
-            department: '',
-            role: ''
-        },
-        managementEmployee: {
-            id: '',
-            name: '',
-            phoneNumber: '',
-            email: '',
-            department: '',
-            role: ''
-        },
-        contractList: []
+        insuranceCategory: '',
+        insuranceinsuranceConditions: {rating: '', startAge: '', endAge: ''},
+        // status: '',
+        // coverage: [],
+        // accidentDocument: [],
+        // createTime: '',
+        // modifiedTime: '',
+        // createEmployee: {id: '', name: '', phoneNumber: '', email: '', department: '', role: ''},
+        // managementEmployee: {id: '', name: '', phoneNumber: '', email: '', department: '', role: ''},
+        // contractList: []
     });
-    useEffect(()=> {console.log(newData)},[newData])
+    // useEffect(()=> {console.log(newData)},[newData])
 
     const [state] = useAsync(() => getInsurance(id), setNewData,[id], skip);
     const { loading, data: insurance, error } = state;
@@ -97,35 +83,35 @@ const SupportDetail = ({match}) => {
                 <SubTitle text="상품개요" />
                 <Descriptions bordered>
                     <Descriptions.Item label="상품명" span={2}>{newData.name}</Descriptions.Item>
-                    <Descriptions.Item label="보험분류">{newData.category}</Descriptions.Item>
-                    <Descriptions.Item label="가입최소나이">{newData.target?.startAge}세</Descriptions.Item>
-                    <Descriptions.Item label="가입최대나이">{newData.target?.endAge}세</Descriptions.Item>
-                    <Descriptions.Item label="최소신용등급">{newData.target?.creditRating}등급</Descriptions.Item>
-                    <Descriptions.Item label="보험상태" span={3}>
-                        {newData.status === "결재완료" ? <Badge status="processing" text="Running" /> :
-                            <>
-                                <Badge status="success" text="결재 대기중"/>
-                                <Button style={{float:'right'}} onClick={onClick}>결재 승인</Button>
-                            </>
-                        }
+                    <Descriptions.Item label="보험분류">{newData.insuranceCategory}</Descriptions.Item>
+                    <Descriptions.Item label="가입최소나이">{newData.insuranceConditions?.startAge}세</Descriptions.Item>
+                    <Descriptions.Item label="가입최대나이">{newData.insuranceConditions?.endAge}세</Descriptions.Item>
+                    <Descriptions.Item label="최소신용등급">{newData.insuranceConditions?.rating}등급</Descriptions.Item>
+                    <Descriptions.Item label="보험상태" span={3}><Badge status="processing" text="상품 운영중" />
+                        {/*{newData.status === "결재완료" ? <Badge status="processing" text="Running" /> :*/}
+                        {/*    <>*/}
+                        {/*        <Badge status="success" text="결재 대기중"/>*/}
+                        {/*        <Button style={{float:'right'}} onClick={onClick}>결재 승인</Button>*/}
+                        {/*    </>*/}
+                        {/*}*/}
                     </Descriptions.Item>
-                    <Descriptions.Item label="보상범위" span={3}>
-                        {newData.coverage?.toString().split(',').map((data, i) =>
-                            <span>{data} <Divider type="vertical" /></span>
-                        )}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="사고시 제출서류" span={3}>
-                        {newData.accidentDocument?.toString().split(',').map((data, i) =>
-                            <span>{data} <Divider type="vertical" /></span>
-                        )}
-                    {/* 빈 어레이도 맵 돌아감, 근데 undefined null은 map 불가능 */}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="상품개발사원">{newData.createEmployee.name}</Descriptions.Item>
-                    <Descriptions.Item label="EMAIL">{newData.createEmployee.email}</Descriptions.Item>
-                    <Descriptions.Item label="전화번호">{newData.createEmployee.phoneNumber}</Descriptions.Item>
-                    <Descriptions.Item label="상품관리사원">{newData.managementEmployee.name}</Descriptions.Item>
-                    <Descriptions.Item label="EMAIL">{newData.managementEmployee.email}</Descriptions.Item>
-                    <Descriptions.Item label="전화번호">{newData.managementEmployee.phoneNumber}</Descriptions.Item>
+                    {/*<Descriptions.Item label="보상범위" span={3}>*/}
+                    {/*    {newData.coverage?.toString().split(',').map((data, i) =>*/}
+                    {/*        <span>{data} <Divider type="vertical" /></span>*/}
+                    {/*    )}*/}
+                    {/*</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="사고시 제출서류" span={3}>*/}
+                    {/*    {newData.accidentDocument?.toString().split(',').map((data, i) =>*/}
+                    {/*        <span>{data} <Divider type="vertical" /></span>*/}
+                    {/*    )}*/}
+                    {/*/!* 빈 어레이도 맵 돌아감, 근데 undefined null은 map 불가능 *!/*/}
+                    {/*</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="상품개발사원">{newData.createEmployee.name}</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="EMAIL">{newData.createEmployee.email}</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="전화번호">{newData.createEmployee.phoneNumber}</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="상품관리사원">{newData.managementEmployee.name}</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="EMAIL">{newData.managementEmployee.email}</Descriptions.Item>*/}
+                    {/*<Descriptions.Item label="전화번호">{newData.managementEmployee.phoneNumber}</Descriptions.Item>*/}
                     <Descriptions.Item label="보험설명" span={3}>
                         {newData.description}
                     </Descriptions.Item>
