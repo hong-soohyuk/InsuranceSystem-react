@@ -2,33 +2,14 @@ import {Wrapper} from "../../components/Wrapper";
 import {Button, Col, Form, Input, InputNumber, notification, Row, Radio, Select} from "antd";
 import React, {useState} from "react";
 import axios from "axios";
+import {post} from "../../library/apiPost";
 
 const AddClient = () => {
     const title = "고객가입"
     const subtitle = "HM 손해보험의 고객을 등록하기 위한 페이지입니다."
     const [form] = Form.useForm();
+    const url = '/client';
 
-    async function postInsurance(data, form) {
-        const url = '/client';
-        const response = await axios({
-            method: 'post',
-            url: url,
-            data: {...data,
-                //todo: schema 채우기
-            },
-            headers: {'content-type': 'application/json'}
-        }).then((response) => {
-            notification.open({
-                message: 'Notification!',
-                description: '고객정보 전송 완료'
-            })
-            form.resetFields();
-            return response.data.data;
-        }).catch(err => {
-            console.log(err.message);
-        });
-        return response;
-    }
     const [state, setState] = useState({
         name: '',
         gender: '',
@@ -58,7 +39,7 @@ const AddClient = () => {
         console.log(state)
     }
     const handleSubmit = async () => {
-        const data = await postInsurance(state, form);
+        const data = await post(url, state, form);
     }
     const selectBank = (
         <Form.Item name={"bank"} noStyle initialValue={"국민"}>

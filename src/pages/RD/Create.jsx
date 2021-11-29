@@ -4,38 +4,14 @@ import axios from "axios";
 import {Wrapper} from "../../components/Wrapper";
 import "../../css/Detail.css";
 import {SelectOptions} from "../../components/SelectOptions";
+import {post} from "../../library/apiPost";
 
-async function postInsurance(data, form) {
-    const url = '/insurance';
-    const response = await axios({
-        method: 'post',
-        url: url,
-        data: {...data,
-            conditions: {
-                startAge: data.startAge,
-                endAge: data.endAge,
-                rating: data.rating
-            },
-
-        },
-        headers: {'content-type': 'application/json'}
-    }).then((response) => {
-        notification.open({
-            message: 'Notification!',
-            description: '보험정보 전송 완료'
-        })
-        form.resetFields();
-        return response.data.data;
-    }).catch(err => {
-        console.log(err.message);
-    });
-    return response;
-}
 
 const Create = () => {
     const title = "상품개발"
     const subtitle = "HM 손해보험의 보험상품을 개발하기 위한 페이지입니다."
     const [form] = Form.useForm();
+    const url = '/insurance';
 
     const [state, setState] = useState({
         name: '',
@@ -47,24 +23,20 @@ const Create = () => {
     })
 
     const insuranceCategory = [
-        {label: '자동차보함', value: '자동차'},
+        {label: '자동차보험', value: '자동차'},
         {label: '운전자보험 ', value: '운전자'},
         {label: '화재보험', value: '화재'},
         {label: '여행자보험', value: '여행자'}
     ];
 
     const handleChange = (event) =>{
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
+        const {name, value} = event.target;
         if(Array.isArray(value)){
-            setState({
-                ...state,
-                [name] : [...value]
-            });
+            setState({...state, [name] : [...value]});
             console.log('array val', value)
         } else{
             setState({...state, [name]: value});
+            console.log('single val', name)
             console.log('single val', value)
         }
     }
@@ -72,11 +44,16 @@ const Create = () => {
     useEffect(() => {
         console.log('useEffect ',state);
     }, [state])
-    // useState sync 맞추기 위해 이펙트 써야함?
 
     const handleSubmit = async () => {
-        // test(state, form);
-        const data = await postInsurance(state, form);
+        const postSchema = {...state,
+            conditions: {
+                startAge: state.startAge,
+                endAge: state.endAge,
+                rating: state.rating
+            }
+        };
+        const data = await post(url, state, form, postSchema);
         console.log(data);
     }
 
@@ -89,15 +66,9 @@ const Create = () => {
                     <Input name="name" value={state.name} onChange={handleChange} placeholder="예시) XX 자동차 보험"/>
                 </Form.Item>
 
-                <Form.Item rules={[{required: true, message: '상품의 종류를 선택해주세요!'}]} name='category' label="상품 항목">
-                    <SelectOptions onChangeMethod={handleChange} selectValue={state.category} optionList={insuranceCategory}/>
-                    {/*<Select value={state.category} onChange={(val)=>{handleChange({target: {name: 'category', value: val}})}}>*/}
-                    {/*    <Select.Option value="자동차">자동차 보험</Select.Option>*/}
-                    {/*    <Select.Option value="운전자">운전자 보험</Select.Option>*/}
-                    {/*    <Select.Option value="화재">화재 보험</Select.Option>*/}
-                    {/*    <Select.Option value="여행">여행자 보험</Select.Option>*/}
-                    {/*</Select>*/}
-                </Form.Item>
+                <SelectOptions onChangeMethod={handleChange} selectedName='category' selectValue={state.category} required={true}
+                               selectPlaceholder={'상품의 종류를 선택하세요'} optionList={insuranceCategory}/>
+
 
                 <Row>
                     <Col span={7}>
