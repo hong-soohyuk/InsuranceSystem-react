@@ -11,16 +11,19 @@ const Create = () => {
     const title = "상품개발"
     const subtitle = "HM 손해보험의 보험상품을 개발하기 위한 페이지입니다."
     const [form] = Form.useForm();
-    const url = '/insurance';
 
     const [state, setState] = useState({
         name: '',
+        category: '',
         description: '',
+        rating: '',
         startAge: '',
         endAge: '',
-        rating: '',
-        category: '',
     })
+
+    useEffect(() => {
+        console.log('useEffect ',state);
+    }, [state])//debug sync
 
     const insuranceCategory = [
         {label: '자동차보험', value: '자동차'},
@@ -41,19 +44,19 @@ const Create = () => {
         }
     }
 
-    useEffect(() => {
-        console.log('useEffect ',state);
-    }, [state])
-
     const handleSubmit = async () => {
-        const postSchema = {...state,
+        const url = '/insurance';
+        const payload = {
+            name: state.name,
+            category: state.category,
+            description: state.description,
             conditions: {
                 startAge: state.startAge,
                 endAge: state.endAge,
                 rating: state.rating
             }
         };
-        const data = await post(url, state, form, postSchema);
+        const data = await post(url, payload, form);
         console.log(data);
     }
 
@@ -67,7 +70,7 @@ const Create = () => {
                 </Form.Item>
 
                 <SelectOptions onChangeMethod={handleChange} selectedName='category' selectValue={state.category} required={true}
-                               selectPlaceholder={'상품의 종류를 선택하세요'} optionList={insuranceCategory}/>
+                               label={'상품 항목'} selectPlaceholder={'상품의 종류를 선택하세요'} optionList={insuranceCategory}/>
 
 
                 <Row>
@@ -91,8 +94,8 @@ const Create = () => {
                     </Col>
                 </Row>
 
-                <Form.Item rules={[{required:true, message: '보험의 개괄적인 설명을 입력해주세요'}]} name={"description"} label="보험상품 개요">
-                    <Input.TextArea name="description" value={state.description} onChange={handleChange}/>
+                <Form.Item rules={[{required:true, message: '보험의 설명을 입력해주세요'}]} name={"description"} label="보험상품 개요">
+                    <Input.TextArea name="description" value={state.description} onChange={handleChange} placeholder={'보험의 정보를 적어주세요'}/>
                 </Form.Item>
 
                 <Form.Item><Button style={{marginBottom : '10px'}} type="primary" htmlType="submit" value="Submit">Submit</Button></Form.Item>

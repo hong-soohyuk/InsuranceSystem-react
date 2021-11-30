@@ -6,9 +6,16 @@ export const SelectOptions = (props) => {
     useEffect(() => {
         console.log('useEffect in select ',value);
     })
-    const {selectedName: name, selectValue: value, selectPlaceholder: placeholder, onChangeMethod: handleChange, optionList, required} = props;
+    const {
+        selectedName: name,
+        selectValue: value,
+        selectPlaceholder: placeholder,
+        onChangeMethod: handleChange,
+        label,
+        optionList,
+        required} = props;
     return (
-        <Form.Item rules={[{required: required, message: {placeholder}}]} name={name} label="상품 항목">
+        <Form.Item rules={[{required: required, message: {placeholder}}]} name={name} label={label}>
             <Select value={value||undefined} placeholder={placeholder}
                     onChange={val => handleChange({target: {name: name, value: val}})}>
                 {optionList?.map(option => {

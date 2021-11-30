@@ -34,7 +34,7 @@ const FlexDiv = styled.div`
 
 async function getClients() {
     const response = await axios.get(
-        '/client'
+        '/client/'
     );
     return response.data.data;
 }
@@ -42,6 +42,7 @@ async function getClients() {
 const Client = ({match, history}) => {
     const title = "고객관리";
     const subtitle = "잠재 고객 및 계약 고객을 분석하여 추가 영업기회 확보";
+
     // load data and setting
     const [searchData, setSearchData] = useState([]);
     const [state, refetch] = useAsync(getClients, setSearchData, [getClients]);
@@ -51,7 +52,7 @@ const Client = ({match, history}) => {
     const [dateRange, setDateRange] = useState({
         minDate: '',
         maxDate: ''
-    }); // date range
+    });
 
     const [gender, setGender] = useState('전체'); // gender pick
     const [visible, setVisible] = useState(false);
@@ -73,83 +74,44 @@ const Client = ({match, history}) => {
             title: 'No',
             dataIndex: 'id',
             key: 'id',
-            width: '3%',
+            width: '10%',
             render: text => <a>{text}</a>,
         },
         {
             title: '고객명',
             dataIndex: 'name',
             key: 'name',
+            width: '20%',
             render: text => <a>{text}</a>,
         },
         {
             title: '성별',
-            dataIndex: 'gender',
-            width: '10%',
+            dataIndex: ['privacy', 'gender'],
             key: 'gender',
-            render: (gender) => {
-                if (gender === 'MALE')
-                    return '남';
-                else
-                    return '여';
+            width: '10%',
+            onFilter: (value, record) => record.gender.indexOf(value) === 0,
+            render: gender => {
+                let color, value;
+                switch (gender){
+                    case 'MALE': value = 'MALE'; color = 'green'; break;
+                    case 'FEMALE': value = 'FEMALE'; color = 'geekblue'; break;
+                }
+                return (<Tag color={color} key={gender}>{value}</Tag>);
             }
-        },
-        {
-            title: '직업',
-            dataIndex: 'job',
-            width: '20%',
-            key: 'job',
         },
         {
             title: '전화번호',
-            key: 'phoneNumber',
             dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
             width: '20%',
+            render: text => <a>{text}</a>,
         },
         {
-            title: '가입상태',
-            key: 'id',
-            width: '15%',
-            dataIndex: 'contractList',
-            filters: [
-                {
-                    text: '가입고객',
-                    value: 1
-                },
-                {
-                    text: '미가입고객',
-                    value: 0
-                }],
-            onFilter: (value, record) => {
-                console.log(record.contractList.length);
-                if (value == 0) {
-                    if (record.contractList.length == 0)
-                        return true;
-                    else if (record.contractList.length > 0)
-                        return false;
-                } else if (value == 1) {
-                    if (record.contractList.length == 0)
-                        return false;
-                    else if (record.contractList.length > 0)
-                        return true;
-                }
-            },
-            render: (contractList, data) => {
-                let status;
-                let color;
-                if (contractList.length === 0) {
-                    status = "미가입고객";
-                    color = "volcano";
-                } else if (contractList.length > 0) {
-                    status = "가입고객";
-                    color = "geekblue";
-                }
-                return (
-                    <Tag color={color} key={data.id}>
-                        {status}
-                    </Tag>
-                );
-            }
+            title: '주민등록번호 앞자리',
+            key: 'rrnFront',
+            dataIndex: ['privacy', 'rrn', 'rrnFront'],
+            width: '20%',
+            render: text => <a>{text}</a>,
         },
         {
             title: 'Action',
