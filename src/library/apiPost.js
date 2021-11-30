@@ -1,8 +1,8 @@
 import axios from "axios";
 import {notification} from "antd";
 
-export const post = async (props) => {
-    const {url, payload, form} = props
+export const post = async (url, payload, form) => {
+    console.log('분리된 함수에서 페이로드 ' + JSON.stringify(payload));
     return await axios( url,{
         method: 'post',
         headers: {'content-type': 'application/json'},
@@ -14,3 +14,9 @@ export const post = async (props) => {
     }).catch(err =>
     {console.log(err.message);});
 }
+//분리된 함수에서 페이로드 이거 된거임
+// {"name":"분리한 보험",
+// "category":"자동차",
+// "description":"ㅇㅇ",
+// "conditions":{"startAge":11,"endAge":16,"rating":3}}
+// todo: 가끔씩 400뜨는거 무섭다...

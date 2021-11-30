@@ -6,7 +6,6 @@ import "../../css/Detail.css";
 import {SelectOptions} from "../../components/SelectOptions";
 import {post} from "../../library/apiPost";
 
-
 const Create = () => {
     const title = "상품개발"
     const subtitle = "HM 손해보험의 보험상품을 개발하기 위한 페이지입니다."
@@ -29,7 +28,7 @@ const Create = () => {
         {label: '자동차보험', value: '자동차'},
         {label: '운전자보험 ', value: '운전자'},
         {label: '화재보험', value: '화재'},
-        {label: '여행자보험', value: '여행자'}
+        {label: '여행자보험', value: '여행'}
     ];
 
     const handleChange = (event) =>{

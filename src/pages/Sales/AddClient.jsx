@@ -4,27 +4,8 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {SelectOptions} from "../../components/SelectOptions";
 import {InputGroup} from "react-bootstrap";
-// import {post} from "../../library/apiPost";
+import {post} from "../../library/apiPost";
 
-const post = async(url, payload, form) => {
-    const response = await axios({
-        method: 'post',
-        url: url,
-        data: payload,
-        headers: {'content-type': 'application/json'}
-    }).then((response) => {
-        notification.open({
-            message: 'Notification!',
-            description: '전송 완료'
-        })
-        form.resetFields();
-        return response.data.data;
-    }).catch(err =>
-    {
-        console.log(err.message);
-    });
-    return response;
-}
 
 const AddClient = () => {
     const title = "고객가입"
@@ -79,7 +60,7 @@ const AddClient = () => {
                     email: state.email,
                     phoneNumber: state.phoneNumber,
                 },
-                additionalInfo: {
+                info: {
                     bank: state.bank,
                     buildingNumber: state.buildingNumber,
                     carNumber: state.carNumber,
@@ -88,7 +69,7 @@ const AddClient = () => {
 
                 }
             };
-        console.log(payload);
+        console.log("핸들써밋 페이로드" + JSON.stringify(payload));
         const data = await post(url, payload, form);
         console.log(data);
     }
